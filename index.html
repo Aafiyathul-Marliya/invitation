@@ -858,7 +858,7 @@
           <div class="location-detail"><h4>Date & Time</h4><p>Sunday, April 12, 2026<br>11:00 AM onwards</p></div>
           <div class="location-detail"><h4>Dress Code</h4><p>Formal / Traditional attire<br>Ladies: Abaya or comfort wears</p></div>
         </div>
-        <div style="padding:0 2rem 2rem;text-align:center;"><a class="btn-directions" href="https://maps.google.com/?q=Tenkasi,Tamil+Nadu,India" target="_blank">🗺️ Get Directions</a></div>
+        <div style="padding:0 2rem 2rem;text-align:center;"><a class="btn-directions" href="https://maps.app.goo.gl/YbyvkYcN9VkW7Mxr9" target="_blank">📍 Get Directions</a></div>
       </div>
     </div>
   </div>
@@ -1293,17 +1293,21 @@ function sendWishWhatsApp() {
     `بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ\n\n` +
     `_Sent via Wedding Invitation — April 12, 2026_`;
   const encoded = encodeURIComponent(message);
-  const waNumber = '917868903412';
-  const waURL = `https://wa.me/${waNumber}?text=${encoded}`;
+  const waNumbers = ['917868903412', '918122787840'];
+  // First number opens via the anchor tag (respects user gesture, avoids popup block)
+  const btn = document.getElementById('whatsapp-btn');
+  btn.href = `https://wa.me/${waNumbers[0]}?text=${encoded}`;
+  // Second number opens in a new tab after a short delay
+  setTimeout(() => {
+    window.open(`https://wa.me/${waNumbers[1]}?text=${encoded}`, '_blank');
+  }, 800);
+  // Save wish to local list
   defaultWishes.unshift({ name, relation, text });
   renderWishes(defaultWishes);
   document.getElementById('wish-name').value = '';
   document.getElementById('wish-text').value = '';
-  showToast('Opening WhatsApp... JazakAllahu Khairan 🌸');
-  // Update href and open
-  const btn = document.getElementById('whatsapp-btn');
-  btn.href = waURL;
-  return true; // allow default link behavior
+  showToast('Sending to both numbers... JazakAllahu Khairan 🌸');
+  return true; // allow default link behavior on btn
 }
 </script>
 </body>
