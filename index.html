@@ -1293,7 +1293,7 @@ function sendWishWhatsApp() {
     `بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ\n\n` +
     `_Sent via Wedding Invitation — April 12, 2026_`;
   const encoded = encodeURIComponent(message);
-  const waNumbers = ['917868903412', '918122787840'];
+  const waNumbers = ['918122787840'];
   // First number opens via the anchor tag (respects user gesture, avoids popup block)
   const btn = document.getElementById('whatsapp-btn');
   btn.href = `https://wa.me/${waNumbers[0]}?text=${encoded}`;
