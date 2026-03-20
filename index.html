@@ -1,4 +1,7 @@
 
+Aafiyathul marliya <aafiyathulmarliya@gmail.com>
+18 Mar 2026, 15:43 (2 days ago)
+to navithn38@gmail.com
 
 <!DOCTYPE html>
 <html lang="en">
@@ -636,6 +639,66 @@
 </head>
 <body>
 
+<!-- ===== GATE OVERLAY ===== -->
+<div id="gate-overlay">
+  <div class="gate-stars" id="gate-stars"></div>
+  <div class="gate-progress-bar" id="gate-progress"></div>
+  <div class="gate-score-badge" id="gate-score-badge">⭐ 0 / 30</div>
+
+  <!-- TASK 1: Drag the heart -->
+  <div class="gate-step active" id="step-1">
+    <div class="gate-emoji-big">💌</div>
+    <div class="gate-title">Challenge 1 of 3</div>
+    <div class="gate-task-num">Task One</div>
+    <div class="gate-question">"Drag the heart 💛 into the box to unlock the first door of this love story!"</div>
+    <div class="draggable-heart" id="drag-heart" draggable="true">💛</div>
+    <p class="drag-hint">(drag the emoji above 👆 into the box below 👇)</p>
+    <div class="drag-zone" id="drop-zone">Drop the ❤️ here...</div>
+    <div class="gate-feedback" id="feedback-1"></div>
+  </div>
+
+  <!-- TASK 2: Find the wedding rings (memory match) -->
+  <div class="gate-step" id="step-2">
+    <div class="gate-emoji-big">💍</div>
+    <div class="gate-title">Challenge 2 of 3</div>
+    <div class="gate-task-num">Task Two</div>
+    <div class="gate-question">"Match all the 💍 wedding pairs to reveal the second gate! Flip the cards to find them!"</div>
+    <p class="match-hint">Click cards to flip. Find 4 matching pairs!</p>
+    <div class="emoji-grid" id="emoji-grid"></div>
+    <div class="gate-feedback" id="feedback-2"></div>
+  </div>
+
+  <!-- TASK 3: Unscramble the love message -->
+  <div class="gate-step" id="step-3">
+    <div class="gate-emoji-big">📜</div>
+    <div class="gate-title">Challenge 3 of 3</div>
+    <div class="gate-task-num">Task Three</div>
+    <div class="gate-question">"Arrange the words to complete the wedding blessing! 🌸"</div>
+    <div class="answer-slots" id="answer-slots"><span style="color:rgba(201,168,76,0.4);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:0.9rem;">Tap words below to build the sentence...</span></div>
+    <div class="scramble-words" id="scramble-words"></div>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;">
+      <button class="gate-btn" id="check-btn" onclick="checkScramble()">✨ Check Answer</button>
+      <button class="gate-btn-secondary" onclick="resetScramble()">↩ Reset</button>
+    </div>
+    <div class="gate-feedback" id="feedback-3"></div>
+  </div>
+
+  <!-- FINAL SCORE -->
+  <div id="gate-final">
+    <div id="confetti-container"></div>
+    <div class="final-score-circle">
+      <div class="final-score-num" id="final-score-num">30</div>
+      <div class="final-score-label">out of 30</div>
+    </div>
+    <div class="score-breakdown" id="score-breakdown"></div>
+    <div class="final-title">🌟 You're In! Mabrook! 🌟</div>
+    <div class="final-message" id="final-message">You've unlocked the wedding invitation! Welcome with love and blessings!</div>
+    <button class="gate-btn" style="font-size:1.1rem;padding:1rem 3rem;" onclick="openInvitation()">
+      🌸 Enter the Invitation 🌸
+    </button>
+  </div>
+</div>
+
 <!-- ===== LOADING ===== -->
 <div id="loading">
   <div class="loading-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
@@ -818,7 +881,279 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// ============================================================
+// GATE LOGIC
+// ============================================================
+let scores = [0, 0, 0];
+let currentStep = 1;
 
+// Stars background
+(function createStars() {
+  const container = document.getElementById('gate-stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'gate-star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = Math.random() * 3 + 's';
+    s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    container.appendChild(s);
+  }
+})();
+
+function updateProgressBar() {
+  const total = scores.reduce((a,b) => a+b, 0);
+  const pct = (total / 30) * 100;
+  document.getElementById('gate-progress').style.width = pct + '%';
+  document.getElementById('gate-score-badge').textContent = '⭐ ' + total + ' / 30';
+}
+
+function goToStep(n) {
+  document.querySelectorAll('.gate-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('gate-final').classList.remove('active');
+  if (n === 'final') {
+    document.getElementById('gate-final').classList.add('active');
+    showFinalScore();
+  } else {
+    document.getElementById('step-' + n).classList.add('active');
+    currentStep = n;
+  }
+}
+
+// ---- TASK 1: Drag & Drop ----
+const dragHeart = document.getElementById('drag-heart');
+const dropZone = document.getElementById('drop-zone');
+let task1Done = false;
+
+dragHeart.addEventListener('dragstart', e => {
+  e.dataTransfer.setData('text', 'heart');
+});
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  if (!task1Done) completeTask1();
+});
+
+// Touch support for mobile drag
+let isDragging = false;
+let clone = null;
+dragHeart.addEventListener('touchstart', e => {
+  isDragging = true;
+  const t = e.touches[0];
+  clone = dragHeart.cloneNode(true);
+  clone.style.position = 'fixed';
+  clone.style.pointerEvents = 'none';
+  clone.style.fontSize = '3rem';
+  clone.style.zIndex = '99999';
+  clone.style.left = (t.clientX - 24) + 'px';
+  clone.style.top = (t.clientY - 24) + 'px';
+  clone.style.transition = 'none';
+  document.body.appendChild(clone);
+}, {passive:true});
+dragHeart.addEventListener('touchmove', e => {
+  if (!clone) return;
+  const t = e.touches[0];
+  clone.style.left = (t.clientX - 24) + 'px';
+  clone.style.top = (t.clientY - 24) + 'px';
+  const dropRect = dropZone.getBoundingClientRect();
+  if (t.clientX >= dropRect.left && t.clientX <= dropRect.right &&
+      t.clientY >= dropRect.top && t.clientY <= dropRect.bottom) {
+    dropZone.classList.add('dragover');
+  } else {
+    dropZone.classList.remove('dragover');
+  }
+}, {passive:true});
+dragHeart.addEventListener('touchend', e => {
+  if (!clone) return;
+  if (!task1Done) {
+    const t = e.changedTouches[0];
+    const dropRect = dropZone.getBoundingClientRect();
+    if (t.clientX >= dropRect.left && t.clientX <= dropRect.right &&
+        t.clientY >= dropRect.top && t.clientY <= dropRect.bottom) {
+      completeTask1();
+    }
+  }
+  clone.remove(); clone = null;
+  dropZone.classList.remove('dragover');
+});
+
+function completeTask1() {
+  task1Done = true;
+  scores[0] = 10;
+  updateProgressBar();
+  dropZone.classList.add('success');
+  dropZone.innerHTML = '💛 The Heart Has Landed! +10 ✨';
+  dragHeart.style.opacity = '0.3';
+  const fb = document.getElementById('feedback-1');
+  fb.textContent = '🎉 Wonderful! You opened the first gate with love!';
+  fb.className = 'gate-feedback success';
+  launchMiniConfetti(10);
+  setTimeout(() => goToStep(2), 1800);
+}
+
+// ---- TASK 2: Memory Match ----
+const emojiPairs = ['💍','💍','🌸','🌸','🕌','🕌','💛','💛'];
+let shuffled = [...emojiPairs].sort(() => Math.random() - 0.5);
+let flipped = [], matchedCount = 0, canFlip = true;
+
+function buildMemoryGrid() {
+  const grid = document.getElementById('emoji-grid');
+  grid.innerHTML = '';
+  shuffled.forEach((emoji, i) => {
+    const card = document.createElement('div');
+    card.className = 'emoji-card hidden-card';
+    card.dataset.emoji = emoji;
+    card.dataset.index = i;
+    card.innerHTML = '<span class="card-back">🌙</span><span class="card-front">' + emoji + '</span>';
+    card.style.perspective = '600px';
+    card.addEventListener('click', () => flipCard(card));
+    grid.appendChild(card);
+  });
+}
+buildMemoryGrid();
+
+function flipCard(card) {
+  if (!canFlip) return;
+  if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  card.querySelector('.card-back').style.transform = 'rotateY(180deg)';
+  card.querySelector('.card-front').style.transform = 'rotateY(0deg)';
+  flipped.push(card);
+  if (flipped.length === 2) {
+    canFlip = false;
+    setTimeout(checkMatch, 700);
+  }
+}
+function checkMatch() {
+  const [a, b] = flipped;
+  if (a.dataset.emoji === b.dataset.emoji) {
+    a.classList.add('matched'); b.classList.add('matched');
+    matchedCount++;
+    flipped = []; canFlip = true;
+    if (matchedCount === 4) {
+      scores[1] = 10;
+      updateProgressBar();
+      const fb = document.getElementById('feedback-2');
+      fb.textContent = '🎊 All pairs matched! You unlocked gate two! +10 ✨';
+      fb.className = 'gate-feedback success';
+      launchMiniConfetti(15);
+      setTimeout(() => goToStep(3), 2000);
+    }
+  } else {
+    setTimeout(() => {
+      a.classList.remove('flipped');
+      b.classList.remove('flipped');
+      a.querySelector('.card-back').style.transform = '';
+      a.querySelector('.card-front').style.transform = 'rotateY(180deg)';
+      b.querySelector('.card-back').style.transform = '';
+      b.querySelector('.card-front').style.transform = 'rotateY(180deg)';
+      flipped = []; canFlip = true;
+    }, 500);
+  }
+}
+
+// ---- TASK 3: Word Scramble ----
+const correctSentence = ["May", "Allah", "bless", "this", "beautiful", "couple"];
+let selectedWords = [];
+
+function buildScramble() {
+  const scrambled = [...correctSentence].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('scramble-words');
+  container.innerHTML = '';
+  scrambled.forEach(word => {
+    const chip = document.createElement('div');
+    chip.className = 'word-chip';
+    chip.textContent = word;
+    chip.addEventListener('click', () => selectWord(chip, word));
+    container.appendChild(chip);
+  });
+  selectedWords = [];
+  document.getElementById('answer-slots').innerHTML = '<span style="color:rgba(201,168,76,0.4);font-style:italic;font-family:\'Cormorant Garamond\',serif;font-size:0.9rem;">Tap words below to build the sentence...</span>';
+}
+buildScramble();
+
+function selectWord(chip, word) {
+  if (chip.classList.contains('used')) return;
+  chip.classList.add('used');
+  selectedWords.push(word);
+  const slot = document.getElementById('answer-slots');
+  if (selectedWords.length === 1) slot.innerHTML = '';
+  const pill = document.createElement('div');
+  pill.className = 'answer-slot';
+  pill.textContent = word;
+  pill.dataset.word = word;
+  pill.addEventListener('click', () => removeWord(pill, chip));
+  slot.appendChild(pill);
+}
+function removeWord(pill, chip) {
+  chip.classList.remove('used');
+  selectedWords.splice(selectedWords.indexOf(pill.dataset.word), 1);
+  pill.remove();
+  if (selectedWords.length === 0) {
+    document.getElementById('answer-slots').innerHTML = '<span style="color:rgba(201,168,76,0.4);font-style:italic;font-family:\'Cormorant Garamond\',serif;font-size:0.9rem;">Tap words below to build the sentence...</span>';
+  }
+}
+function resetScramble() { buildScramble(); document.getElementById('feedback-3').textContent = ''; }
+function checkScramble() {
+  if (selectedWords.length !== correctSentence.length) {
+    const fb = document.getElementById('feedback-3');
+    fb.textContent = '😅 Use all ' + correctSentence.length + ' words to complete the blessing!';
+    fb.className = 'gate-feedback error';
+    return;
+  }
+  const isCorrect = selectedWords.join(' ') === correctSentence.join(' ');
+  const fb = document.getElementById('feedback-3');
+  if (isCorrect) {
+    scores[2] = 10;
+    updateProgressBar();
+    fb.textContent = '🌟 Perfect! The blessing is complete! +10 ✨';
+    fb.className = 'gate-feedback success';
+    launchMiniConfetti(20);
+    setTimeout(() => goToStep('final'), 2000);
+  } else {
+    fb.textContent = '💭 Not quite... the correct order is: "May Allah bless this beautiful couple" — try again!';
+    fb.className = 'gate-feedback error';
+    setTimeout(resetScramble, 1500);
+  }
+}
+
+// ---- FINAL SCORE ----
+function showFinalScore() {
+  const total = scores.reduce((a,b) => a+b, 0);
+  document.getElementById('final-score-num').textContent = total;
+  const msgs = [
+    {emoji:'🌟', task:'Drag the Heart', score: scores[0]},
+    {emoji:'💍', task:'Memory Match', score: scores[1]},
+    {emoji:'📜', task:'Word Blessing', score: scores[2]},
+  ];
+  const bd = document.getElementById('score-breakdown');
+  bd.innerHTML = msgs.map(m =>
+    `<div class="score-pill">${m.emoji} ${m.task}: <strong style="color:var(--gold)">${m.score}/10</strong></div>`
+  ).join('');
+  const messageEl = document.getElementById('final-message');
+  if (total === 30) {
+    messageEl.textContent = "MashaAllah! Perfect score! You're the most welcome guest! 🌸";
+  } else if (total >= 20) {
+    messageEl.textContent = "Wonderful job! You've earned your invitation with love! 💛";
+  } else {
+    messageEl.textContent = "You made it through! Welcome to the celebration! 🌙";
+  }
+  launchMegaConfetti();
+}
+
+function openInvitation() {
+  const overlay = document.getElementById('gate-overlay');
+  overlay.classList.add('closing');
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    document.getElementById('main-site').classList.add('visible');
+    initPetals();
+  }, 1200);
+}
 
 // ---- CONFETTI ----
 function launchMiniConfetti(count) {
@@ -963,7 +1298,7 @@ function sendWishWhatsApp() {
     `بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ\n\n` +
     `_Sent via Wedding Invitation — April 12, 2026_`;
   const encoded = encodeURIComponent(message);
-  const waNumbers = [ '918122787840'];
+  const waNumbers = ['917868903412', '918122787840'];
   // First number opens via the anchor tag (respects user gesture, avoids popup block)
   const btn = document.getElementById('whatsapp-btn');
   btn.href = `https://wa.me/${waNumbers[0]}?text=${encoded}`;
@@ -979,34 +1314,6 @@ function sendWishWhatsApp() {
   showToast('Sending to both numbers... JazakAllahu Khairan 🌸');
   return true; // allow default link behavior on btn
 }
-</script>
-  <script>
-
-const scriptURL = "https://script.google.com/macros/s/AKfycbwa5tOdaQWzCd2QsCFtiSipWzyprPrjQ_AME-Lsxb2ATUXPASqPvfnvacBAcH7b3xRP/exec";
-
-function sendWish() {
-
-let name = document.getElementById("name").value;
-let relation = document.getElementById("relation").value;
-let wish = document.getElementById("wish").value;
-
-fetch(scriptURL, {
-method: "POST",
-body: JSON.stringify({
-name: name,
-relation: relation,
-wish: wish
-})
-})
-.then(response => {
-alert("💛 Your wish was sent successfully!");
-})
-.catch(error => {
-alert("Something went wrong");
-});
-
-}
-
 </script>
 </body>
 </html>
