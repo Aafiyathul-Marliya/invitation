@@ -1310,5 +1310,44 @@ function sendWishWhatsApp() {
   return true; // allow default link behavior on btn
 }
 </script>
+  <script>
+
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhBjBCCB5VsAwRvvaHpLtYc59JQ8wgotX8aD2Laj5DFx7-Ta0npqdEY5FtQPNo9oLj-w/exec";
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const button = document.querySelector("button");
+
+  button.addEventListener("click", function () {
+
+    const name =
+      document.querySelector("input[type='text']")?.value || "";
+
+    const relation =
+      document.querySelector("select")?.value || "";
+
+    const wish =
+      document.querySelector("textarea")?.value || "";
+
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        relation: relation,
+        wish: wish
+      })
+    })
+    .then(() => {
+      console.log("Wish saved to Google Sheet ✅");
+    })
+    .catch(() => {
+      console.log("Error saving wish ❌");
+    });
+
+  });
+
+});
+
+</script>
 </body>
 </html>
