@@ -1,3 +1,8 @@
+
+Aafiyathul marliya <aafiyathulmarliya@gmail.com>
+Wed 18 Mar, 15:43 (2 days ago)
+to navithn38@gmail.com
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -640,10 +645,43 @@
   <div class="gate-progress-bar" id="gate-progress"></div>
   <div class="gate-score-badge" id="gate-score-badge">⭐ 0 / 30</div>
 
+  <!-- TASK 1: Drag the heart -->
+  <div class="gate-step active" id="step-1">
+    <div class="gate-emoji-big">💌</div>
+    <div class="gate-title">Challenge 1 of 3</div>
+    <div class="gate-task-num">Task One</div>
+    <div class="gate-question">"Drag the heart 💛 into the box to unlock the first door of this love story!"</div>
+    <div class="draggable-heart" id="drag-heart" draggable="true">💛</div>
+    <p class="drag-hint">(drag the emoji above 👆 into the box below 👇)</p>
+    <div class="drag-zone" id="drop-zone">Drop the ❤️ here...</div>
+    <div class="gate-feedback" id="feedback-1"></div>
+  </div>
 
- 
+  <!-- TASK 2: Find the wedding rings (memory match) -->
+  <div class="gate-step" id="step-2">
+    <div class="gate-emoji-big">💍</div>
+    <div class="gate-title">Challenge 2 of 3</div>
+    <div class="gate-task-num">Task Two</div>
+    <div class="gate-question">"Match all the 💍 wedding pairs to reveal the second gate! Flip the cards to find them!"</div>
+    <p class="match-hint">Click cards to flip. Find 4 matching pairs!</p>
+    <div class="emoji-grid" id="emoji-grid"></div>
+    <div class="gate-feedback" id="feedback-2"></div>
+  </div>
 
-  
+  <!-- TASK 3: Unscramble the love message -->
+  <div class="gate-step" id="step-3">
+    <div class="gate-emoji-big">📜</div>
+    <div class="gate-title">Challenge 3 of 3</div>
+    <div class="gate-task-num">Task Three</div>
+    <div class="gate-question">"Arrange the words to complete the wedding blessing! 🌸"</div>
+    <div class="answer-slots" id="answer-slots"><span style="color:rgba(201,168,76,0.4);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:0.9rem;">Tap words below to build the sentence...</span></div>
+    <div class="scramble-words" id="scramble-words"></div>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;">
+      <button class="gate-btn" id="check-btn" onclick="checkScramble()">✨ Check Answer</button>
+      <button class="gate-btn-secondary" onclick="resetScramble()">↩ Reset</button>
+    </div>
+    <div class="gate-feedback" id="feedback-3"></div>
+  </div>
 
   <!-- FINAL SCORE -->
   <div id="gate-final">
@@ -825,7 +863,7 @@
           <div class="location-detail"><h4>Date & Time</h4><p>Sunday, April 12, 2026<br>11:00 AM onwards</p></div>
           <div class="location-detail"><h4>Dress Code</h4><p>Formal / Traditional attire<br>Ladies: Abaya or comfort wears</p></div>
         </div>
-        <div style="padding:0 2rem 2rem;text-align:center;"><a class="btn-directions" href="https://maps.google.com/?q=Tenkasi,Tamil+Nadu,India" target="_blank">🗺️ Get Directions</a></div>
+        <div style="padding:0 2rem 2rem;text-align:center;"><a class="btn-directions" href="https://maps.app.goo.gl/YbyvkYcN9VkW7Mxr9?g_st=aw" target="_blank">📍 Get Directions</a></div>
       </div>
     </div>
   </div>
@@ -1253,25 +1291,29 @@ function sendWishWhatsApp() {
   if (!name || !text) {
     showToast('Please fill in your name and wish 💛');
     return false;
+  }
   const message = `🌸 *Wedding Wish for Suhail & Marliya* 🌸\n\n` +
     `*From:* ${name} (${relation})\n\n` +
     `*Wish / Du'a:*\n${text}\n\n` +
     `بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ\n\n` +
     `_Sent via Wedding Invitation — April 12, 2026_`;
   const encoded = encodeURIComponent(message);
-  const waNumber = '917868903412';
-  const waURL = `https://wa.me/${waNumber}?text=${encoded}`;
+  const waNumbers = ['917868903412', '918122787840'];
+  // First number opens via the anchor tag (respects user gesture, avoids popup block)
+  const btn = document.getElementById('whatsapp-btn');
+  btn.href = `https://wa.me/${waNumbers[0]}?text=${encoded}`;
+  // Second number opens in a new tab after a short delay
+  setTimeout(() => {
+    window.open(`https://wa.me/${waNumbers[1]}?text=${encoded}`, '_blank');
+  }, 800);
+  // Save wish to local list
   defaultWishes.unshift({ name, relation, text });
   renderWishes(defaultWishes);
   document.getElementById('wish-name').value = '';
   document.getElementById('wish-text').value = '';
-  showToast('Opening WhatsApp... JazakAllahu Khairan 🌸');
-  // Update href and open
-  const btn = document.getElementById('whatsapp-btn');
-  btn.href = waURL;
-  return true; // allow default link behavior
+  showToast('Sending to both numbers... JazakAllahu Khairan 🌸');
+  return true; // allow default link behavior on btn
 }
 </script>
-
 </body>
 </html>
