@@ -128,14 +128,187 @@
     font-style: italic;
   }
 
+  /* Task 1 — Drag heart */
+  .drag-zone {
+    width: clamp(200px, 60vw, 300px);
+    height: clamp(100px, 25vw, 130px);
+    border: 3px dashed rgba(201,168,76,0.5);
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: rgba(201,168,76,0.6);
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s;
+    background: rgba(201,168,76,0.05);
+  }
+  .drag-zone.dragover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.15);
+    transform: scale(1.03);
+  }
+  .drag-zone.success {
+    border-color: #6ec26e;
+    background: rgba(110,194,110,0.1);
+    color: #6ec26e;
+  }
+  .draggable-heart {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    cursor: grab;
+    user-select: none;
+    display: inline-block;
+    transition: transform 0.2s;
+    filter: drop-shadow(0 4px 8px rgba(201,168,76,0.4));
+  }
+  .draggable-heart:active { cursor: grabbing; transform: scale(1.3) rotate(15deg); }
+  .drag-hint {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+    color: rgba(201,168,76,0.6);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
 
-    
+  /* Task 2 — Emoji match */
+  .emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.5rem, 2vw, 0.8rem);
+    margin-bottom: 1.5rem;
+    max-width: 360px;
+    width: 100%;
+  }
+  .emoji-card {
+    aspect-ratio: 1;
+    background: rgba(255,255,255,0.07);
+    border: 2px solid rgba(201,168,76,0.25);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .emoji-card:hover { transform: scale(1.08); border-color: var(--gold); background: rgba(201,168,76,0.1); }
+  .emoji-card.flipped { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+  .emoji-card.matched { background: rgba(110,194,110,0.15); border-color: #6ec26e; animation: matchPop 0.4s ease; }
+  .emoji-card.hidden-card { cursor: default; }
+  .emoji-card .card-back {
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    position: absolute;
+  }
+  .emoji-card .card-front {
+    position: absolute;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+  @keyframes matchPop { 0%{transform:scale(1);} 50%{transform:scale(1.2);} 100%{transform:scale(1);} }
+  .match-hint {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    color: rgba(201,168,76,0.7);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
 
-  
+  /* Task 3 — Love letter unscramble */
+  .scramble-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    max-width: 420px;
+  }
+  .word-chip {
+    background: rgba(201,168,76,0.12);
+    border: 1.5px solid rgba(201,168,76,0.35);
+    border-radius: 2rem;
+    padding: 0.5rem 1.1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    color: #f5e8d0;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .word-chip:hover:not(.used) { background: rgba(201,168,76,0.25); border-color: var(--gold); transform: scale(1.05); }
+  .word-chip.used { opacity: 0.3; cursor: default; transform: scale(0.9); }
+  .word-chip.selected { background: rgba(201,168,76,0.4); border-color: var(--gold); color: white; box-shadow: 0 0 12px rgba(201,168,76,0.4); }
+  .answer-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    min-height: 48px;
+    max-width: 420px;
+    padding: 0.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px dashed rgba(201,168,76,0.3);
+    border-radius: 1rem;
+  }
+  .answer-slot {
+    background: rgba(201,168,76,0.2);
+    border: 1.5px solid var(--gold);
+    border-radius: 2rem;
+    padding: 0.4rem 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    color: #f5e8d0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .answer-slot:hover { background: rgba(212,100,100,0.2); border-color: #d46464; }
 
-  
-   
-  
+  /* Buttons */
+  .gate-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    letter-spacing: 0.15em;
+    padding: 0.9rem 2.5rem;
+    border: none;
+    border-radius: 3rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(139,105,20,0.5);
+    margin-top: 0.5rem;
+  }
+  .gate-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(139,105,20,0.6); }
+  .gate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .gate-btn-secondary {
+    background: transparent;
+    color: rgba(201,168,76,0.7);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 3rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+  .gate-btn-secondary:hover { color: var(--gold); border-color: var(--gold); }
+
+  .gate-feedback {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    margin-top: 0.8rem;
+    min-height: 1.5em;
+    transition: all 0.3s;
+  }
+  .gate-feedback.success { color: #6ec26e; }
+  .gate-feedback.error { color: #e87878; }
 
   /* Score reveal */
   #gate-final {
@@ -685,7 +858,7 @@
           <div class="location-detail"><h4>Date & Time</h4><p>Sunday, April 12, 2026<br>11:00 AM onwards</p></div>
           <div class="location-detail"><h4>Dress Code</h4><p>Formal / Traditional attire<br>Ladies: Abaya or comfort wears</p></div>
         </div>
-        <div style="padding:0 2rem 2rem;text-align:center;"><a class="btn-directions" href="" target="_blank">📍 Get Directions</a></div>
+        <div style="padding:0 2rem 2rem;text-align:center;"><a class="btn-directions" href="https://maps.google.com/?q=Tenkasi,Tamil+Nadu,India" target="_blank">🗺️ Get Directions</a></div>
       </div>
     </div>
   </div>
@@ -1113,68 +1286,25 @@ function sendWishWhatsApp() {
   if (!name || !text) {
     showToast('Please fill in your name and wish 💛');
     return false;
-  }
   const message = `🌸 *Wedding Wish for Suhail & Marliya* 🌸\n\n` +
     `*From:* ${name} (${relation})\n\n` +
     `*Wish / Du'a:*\n${text}\n\n` +
     `بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ\n\n` +
     `_Sent via Wedding Invitation — April 12, 2026_`;
   const encoded = encodeURIComponent(message);
-  const waNumbers = ['918122787840'];
-  // First number opens via the anchor tag (respects user gesture, avoids popup block)
-  const btn = document.getElementById('whatsapp-btn');
-  btn.href = `https://wa.me/${waNumbers[0]}?text=${encoded}`;
-  // Second number opens in a new tab after a short delay
-  setTimeout(() => {
-    window.open(`https://wa.me/${waNumbers[1]}?text=${encoded}`, '_blank');
-  }, 800);
-  // Save wish to local list
+  const waNumber = '917868903412';
+  const waURL = `https://wa.me/${waNumber}?text=${encoded}`;
   defaultWishes.unshift({ name, relation, text });
   renderWishes(defaultWishes);
   document.getElementById('wish-name').value = '';
   document.getElementById('wish-text').value = '';
-  showToast('Sending to both numbers... JazakAllahu Khairan 🌸');
-  return true; // allow default link behavior on btn
+  showToast('Opening WhatsApp... JazakAllahu Khairan 🌸');
+  // Update href and open
+  const btn = document.getElementById('whatsapp-btn');
+  btn.href = waURL;
+  return true; // allow default link behavior
 }
 </script>
-  <script>
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhBjBCCB5VsAwRvvaHpLtYc59JQ8wgotX8aD2Laj5DFx7-Ta0npqdEY5FtQPNo9oLj-w/exec";
-
-document.addEventListener("DOMContentLoaded", function () {
-
-  const button = document.querySelector("button");
-
-  button.addEventListener("click", function () {
-
-    const name =
-      document.querySelector("input[type='text']")?.value || "";
-
-    const relation =
-      document.querySelector("select")?.value || "";
-
-    const wish =
-      document.querySelector("textarea")?.value || "";
-
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        name: name,
-        relation: relation,
-        wish: wish
-      })
-    })
-    .then(() => {
-      console.log("Wish saved to Google Sheet ✅");
-    })
-    .catch(() => {
-      console.log("Error saving wish ❌");
-    });
-
-  });
-
-});
-
-</script>
 </body>
 </html>
