@@ -1215,14 +1215,14 @@
      WHATSAPP NUMBER — change only this to update
   ============================================================ */
   const WA_NUMBER = '918122787840'; // India country code 91 + number
-
+ 
   /* Helper: open WhatsApp with a pre-filled message */
   function openWhatsApp(message) {
     const encoded = encodeURIComponent(message);
     const url = `https://wa.me/${WA_NUMBER}?text=${encoded}`;
     window.open(url, '_blank');
   }
-
+ 
   /* ============================================================
      WISHES — WhatsApp submission
   ============================================================ */
@@ -1230,43 +1230,43 @@
     const name     = document.getElementById('wish-name').value.trim();
     const relation = document.getElementById('wish-relation').value;
     const text     = document.getElementById('wish-text').value.trim();
-
+ 
     if (!name || !text) {
       showToast('Please fill in your name and wish 💛');
       return;
     }
-
+ 
     const message =
       `💌 *Wedding Wish — Suhail & Marliya*\n\n` +
       `👤 *Name:* ${name}\n` +
       `🤝 *Relation:* ${relation}\n\n` +
       `🌸 *Wish / Du'a:*\n${text}\n\n` +
       `— Sent via the Wedding Invitation`;
-
+ 
     // Also add to on-page list
     defaultWishes.unshift({ name, relation, text });
     renderWishes(defaultWishes);
-
+ 
     // Clear form
     document.getElementById('wish-name').value  = '';
     document.getElementById('wish-text').value  = '';
-
+ 
     showToast('Opening WhatsApp... JazakAllahu Khairan 🌸');
     openWhatsApp(message);
   }
-
+ 
   /* ============================================================
      RSVP — WhatsApp submission
   ============================================================ */
   function sendRSVP(attending) {
     const name   = document.getElementById('rsvp-name').value.trim();
     const guests = document.getElementById('rsvp-guests').value;
-
+ 
     if (!name) {
       showToast('Please enter your name 💛');
       return;
     }
-
+ 
     let message;
     if (attending) {
       message =
@@ -1277,13 +1277,13 @@
         `👤 *Name:* ${name}\n` +
         `👥 *Number of Guests:* ${guests}\n\n` +
         `I will be attending, In Shaa Allah! 🌸`;
-
+ 
       document.getElementById('rsvp-form').style.display = 'none';
       document.getElementById('rsvp-success').style.display = 'block';
       document.getElementById('rsvp-success').innerHTML =
         `JazakAllahu Khairan, ${name}! 🌸<br>` +
         `<span style="font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--brown-light);">We can't wait to celebrate with you! Your RSVP has been sent via WhatsApp.</span>`;
-
+ 
       showToast(`Mabrook! Opening WhatsApp... 🌸`);
     } else {
       message =
@@ -1292,19 +1292,19 @@
         `📅 Sunday, April 12, 2026 · 10:00 AM\n\n` +
         `👤 *Name:* ${name}\n\n` +
         `Unfortunately I am unable to attend. My du'as and best wishes are always with the couple. 🤲`;
-
+ 
       document.getElementById('rsvp-form').style.display = 'none';
       document.getElementById('rsvp-success').style.display = 'block';
       document.getElementById('rsvp-success').innerHTML =
         `JazakAllahu Khairan, ${name}! 🌸<br>` +
         `<span style="font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--brown-light);">Your prayers and du'as are always welcome even from afar.</span>`;
-
+ 
       showToast(`Thank you, ${name}. Opening WhatsApp... 💛`);
     }
-
+ 
     openWhatsApp(message);
   }
-
+ 
   /* ============================================================
      LOADING
   ============================================================ */
@@ -1315,13 +1315,13 @@
       initPetals();
     }, 1800);
   });
-
+ 
   /* NAV */
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('visible', window.scrollY > 80);
   });
-
+ 
   /* SCROLL REVEAL */
   const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
   const observer = new IntersectionObserver(
@@ -1329,7 +1329,7 @@
     { threshold: 0.12 }
   );
   revealEls.forEach(el => observer.observe(el));
-
+ 
   /* COUNTDOWN */
   const weddingDate = new Date('2026-04-12T10:00:00');
   function updateCountdown() {
@@ -1345,7 +1345,7 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
-
+ 
   /* PETALS */
   const canvas = document.getElementById('petals-canvas');
   const ctx    = canvas.getContext('2d');
@@ -1353,7 +1353,7 @@
   function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   resize();
   window.addEventListener('resize', resize);
-
+ 
   function createPetal(randomY = false) {
     const colors = ['rgba(212,160,160,0.55)','rgba(248,192,192,0.45)','rgba(232,213,163,0.4)','rgba(201,168,76,0.3)','rgba(244,192,192,0.5)'];
     return {
@@ -1368,12 +1368,12 @@
       opacity: 0.4 + Math.random() * 0.5,
     };
   }
-
+ 
   function initPetals() {
     petals = Array.from({ length: 28 }, () => createPetal(true));
     animatePetals();
   }
-
+ 
   function drawPetal(p) {
     ctx.save();
     ctx.translate(p.x, p.y);
@@ -1385,7 +1385,7 @@
     ctx.fill();
     ctx.restore();
   }
-
+ 
   function animatePetals() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     petals.forEach((p, i) => {
@@ -1397,12 +1397,45 @@
     });
     requestAnimationFrame(animatePetals);
   }
-
+ 
   /* MUSIC */
   let musicPlaying = false;
   let audioCtx, oscillator1, oscillator2, gainNode;
-
-
+ 
+  function toggleMusic() {
+    const btn = document.getElementById('music-btn');
+    if (!musicPlaying) {
+      try {
+        audioCtx    = new (window.AudioContext || window.webkitAudioContext)();
+        gainNode    = audioCtx.createGain();
+        gainNode.gain.value = 0.08;
+        gainNode.connect(audioCtx.destination);
+        oscillator1 = audioCtx.createOscillator();
+        oscillator1.type = 'sine';
+        oscillator1.frequency.value = 261.63;
+        oscillator1.connect(gainNode);
+        oscillator1.start();
+        oscillator2 = audioCtx.createOscillator();
+        oscillator2.type = 'sine';
+        oscillator2.frequency.value = 329.63;
+        oscillator2.connect(gainNode);
+        oscillator2.start();
+        musicPlaying = true;
+        btn.textContent = '🔊';
+        btn.classList.add('playing');
+        showToast('🎵 Ambient music playing...');
+      } catch(e) {
+        showToast('Music not supported in this browser');
+      }
+    } else {
+      oscillator1.stop(); oscillator2.stop();
+      musicPlaying = false;
+      btn.textContent = '🎵';
+      btn.classList.remove('playing');
+      showToast('Music paused');
+    }
+  }
+ 
   /* TOAST */
   function showToast(msg) {
     const t = document.getElementById('toast');
@@ -1410,10 +1443,14 @@
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
-
+ 
   /* WISHES LIST */
-
-
+  const defaultWishes = [
+    { name: 'Fatimah',     relation: 'Family',    text: 'May Allah bless your union with love, mercy and understanding. Wishing you a lifetime of happiness together! Ameen 🌸' },
+    { name: 'Ibrahim',     relation: 'Friend',    text: 'Mabrook to my dear friend! May your home be filled with joy and your hearts with gratitude. JazakAllahu Khairan.' },
+    { name: 'Ayesha Banu', relation: 'Neighbour', text: 'A beautiful couple, a blessed beginning! May Allah grant you both Jannah together. Ameen ❤️' },
+  ];
+ 
   function renderWishes(wishes) {
     document.getElementById('wish-list').innerHTML = wishes.map(w => `
       <div class="wish-card">
@@ -1424,7 +1461,7 @@
     `).join('');
   }
   renderWishes(defaultWishes);
-
+ 
   /* LIGHTBOX */
   const galleryData = [
     { emoji: '💒', title: 'The Venue',        desc: 'Vembadi Pallivasal, Tenkasi — a beautiful setting for a beautiful union.' },
@@ -1434,7 +1471,7 @@
     { emoji: '🏮', title: 'The Lanterns',      desc: 'Golden lanterns lighting the way to a blessed new chapter.' },
     { emoji: '🎂', title: 'Sweet Beginnings',  desc: 'A sweet start to a beautiful journey together.' },
   ];
-
+ 
   function openLightbox(title, desc) {
     const data = galleryData.find(g => g.title === title) || { emoji: '💒', title, desc };
     document.getElementById('lb-emoji').textContent  = data.emoji;
@@ -1442,7 +1479,7 @@
     document.getElementById('lb-desc').textContent   = data.desc;
     document.getElementById('lightbox').classList.add('open');
   }
-
+ 
   function closeLightbox(e) {
     if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
       document.getElementById('lightbox').classList.remove('open');
