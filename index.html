@@ -1790,7 +1790,7 @@ function closeLightbox(e) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
-<audio id="bgMusic">
+<audio id="bgMusic" preload="auto" muted>
   <source src="https://res.cloudinary.com/dyvt3ovtl/video/upload/v1774297951/nikah_song.mp3_z99yw4.mp3" type="audio/mpeg">
 </audio>
 
@@ -1804,6 +1804,7 @@ padding: 14px;
 border-radius: 50%;
 font-size: 18px;
 z-index: 999;
+box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 ">
 🔊
 </button>
@@ -1812,8 +1813,25 @@ z-index: 999;
 const audio = document.getElementById("bgMusic");
 const btn = document.getElementById("musicBtn");
 
+// 🔥 preload trick (silent play)
+document.addEventListener("DOMContentLoaded", () => {
+  audio.play().then(() => {
+    audio.pause();
+    audio.currentTime = 0;
+  }).catch(() => {});
+});
+
+// 🎯 button click
 btn.addEventListener("click", () => {
+  audio.muted = false;
   audio.play();
+  btn.innerText = "⏸️";
+});
+
+// 🔁 optional toggle
+btn.addEventListener("dblclick", () => {
+  audio.pause();
+  btn.innerText = "🔊";
 });
 </script>
 </body>
