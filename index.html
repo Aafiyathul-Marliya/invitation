@@ -1790,42 +1790,41 @@ function closeLightbox(e) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
-<!-- 🔥 Lightweight Audio -->
-<audio id="bgMusic" preload="none">
-  <source src="nikah_song.mp3" type="audio/mpeg">
-</audio>
+<audio id="bgMusic" preload="none"></audio>
 
-<!-- 🔊 Floating Button -->
 <button id="musicBtn" style="
 position: fixed;
 bottom: 20px;
 right: 20px;
 background: gold;
 border: none;
-padding: 12px;
+padding: 14px;
 border-radius: 50%;
 font-size: 18px;
 z-index: 999;
-box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 ">
 🔊
 </button>
 
-<!-- ⚡ Ultra Fast Script -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const btn = document.getElementById("musicBtn");
-  const audio = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+const audio = document.getElementById("bgMusic");
 
-  btn.addEventListener("click", function () {
-    if (audio.paused) {
-      audio.play();
-      btn.innerText = "⏸️";
-    } else {
-      audio.pause();
-      btn.innerText = "🔊";
-    }
-  });
+let loaded = false;
+
+btn.addEventListener("click", () => {
+  if (!loaded) {
+    audio.src = "nikah_song.mp3"; // 👈 file load only when click
+    loaded = true;
+  }
+
+  if (audio.paused) {
+    audio.play();
+    btn.innerText = "⏸️";
+  } else {
+    audio.pause();
+    btn.innerText = "🔊";
+  }
 });
 </script>
 </body>
