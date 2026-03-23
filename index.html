@@ -1035,15 +1035,28 @@
 </head>
 <body>
   <audio id="bgMusic" loop>
-  <source src="invitation/nikah_song.mp3" type="audio/mpeg">
+  <source src="nikah_song.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-window.addEventListener('click', function () {
-  document.getElementById("bgMusic").play();
-}, { once: true });
-</script>
+<button onclick="startMusic()" style="
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: gold;
+border: none;
+padding: 12px 16px;
+border-radius: 50%;
+font-size: 18px;
+">
+🔊
+</button>
 
+<script>
+function startMusic() {
+  let audio = document.getElementById("bgMusic");
+  audio.play();
+}
+</script>
 
 <!-- Loading -->
 <div id="loading">
