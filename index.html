@@ -1790,34 +1790,42 @@ function closeLightbox(e) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
-<audio id="bgMusic">
+<!-- 🔥 Lightweight Audio -->
+<audio id="bgMusic" preload="none">
   <source src="nikah_song.mp3" type="audio/mpeg">
 </audio>
 
+<!-- 🔊 Floating Button -->
 <button id="musicBtn" style="
 position: fixed;
 bottom: 20px;
 right: 20px;
 background: gold;
 border: none;
-padding: 14px;
+padding: 12px;
 border-radius: 50%;
 font-size: 18px;
 z-index: 999;
+box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 ">
 🔊
 </button>
 
+<!-- ⚡ Ultra Fast Script -->
 <script>
-const btn = document.getElementById("musicBtn");
-const audio = document.getElementById("bgMusic");
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("musicBtn");
+  const audio = document.getElementById("bgMusic");
 
-btn.addEventListener("click", () => {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
+  btn.addEventListener("click", function () {
+    if (audio.paused) {
+      audio.play();
+      btn.innerText = "⏸️";
+    } else {
+      audio.pause();
+      btn.innerText = "🔊";
+    }
+  });
 });
 </script>
 </body>
