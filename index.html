@@ -1790,8 +1790,8 @@ function closeLightbox(e) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
-<audio id="bgMusic" preload="auto">
-  <source src="nikah_song.mp3" type="audio/mpeg">
+<audio id="bgMusic">
+  <source src="https://res.cloudinary.com/dyvt3ovtl/video/upload/v1774297951/nikah_song.mp3_z99yw4.mp3" type="audio/mpeg">
 </audio>
 
 <button id="musicBtn" style="
@@ -1811,8 +1811,6 @@ z-index: 999;
 <script>
 const audio = document.getElementById("bgMusic");
 const btn = document.getElementById("musicBtn");
-
-audio.load();
 
 btn.addEventListener("click", () => {
   audio.play();
