@@ -470,7 +470,6 @@
   .gallery-item:hover .overlay { opacity: 1; }
   .gallery-item:first-child { grid-column: span 2; aspect-ratio: 16/9; font-size: 5rem; }
 
-  /* ===== WISHES SECTION ===== */
   #wishes { max-width: 100%; background: linear-gradient(160deg, var(--cream-dark), var(--cream)); padding: clamp(3rem,8vw,6rem) 0; }
   #wishes > .inner { max-width: 900px; margin: 0 auto; padding: 0 clamp(1rem,5vw,3rem); }
 
@@ -534,7 +533,6 @@
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,105,20,0.4); }
   .btn-primary:active { transform: translateY(0); }
 
-  /* WhatsApp button */
   .btn-whatsapp {
     display: inline-flex;
     align-items: center;
@@ -629,7 +627,6 @@
   }
   .btn-directions:hover { background: var(--gold); color: white; }
 
-  /* ===== RSVP ===== */
   #rsvp { max-width: 100%; background: linear-gradient(160deg, var(--cream), var(--rose-light)); padding: clamp(3rem,8vw,6rem) 0; }
   #rsvp > .inner { max-width: 700px; margin: 0 auto; padding: 0 clamp(1rem,5vw,3rem); }
 
@@ -738,28 +735,6 @@
   .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-  #music-btn {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 400;
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    box-shadow: 0 4px 18px rgba(139,105,20,0.4);
-    transition: transform 0.2s;
-    color: white;
-  }
-  #music-btn:hover { transform: scale(1.1); }
-  #music-btn.playing { animation: glow 2s ease infinite; }
-  @keyframes glow { 0%,100%{ box-shadow: 0 4px 18px rgba(139,105,20,0.4); } 50%{ box-shadow: 0 4px 32px rgba(201,168,76,0.7); } }
-
   .toast {
     position: fixed;
     bottom: 5rem;
@@ -839,14 +814,6 @@
 
 <nav id="main-nav">
   <a href="#hero" class="nav-logo">Suhail & Marliya</a>
-  <!-- <ul class="nav-links">
-    <li><a href="#events">Events</a></li>
-    <li><a href="#countdown-section">Countdown</a></li>
-    <li><a href="#story">Our Story</a></li>
-    <li><a href="#wishes">Wishes</a></li>
-    <li><a href="#location">Location</a></li>
-    <li><a href="#rsvp">RSVP</a></li>
-  </ul> -->
 </nav>
 
 <canvas id="petals-canvas"></canvas>
@@ -1096,8 +1063,7 @@
     </div>
   </div>
 
-
-  <!-- ===== WISHES — WITH WHATSAPP ===== -->
+  <!-- WISHES -->
   <div id="wishes">
     <div class="inner">
       <div class="section-heading reveal">
@@ -1128,7 +1094,6 @@
           <label>Your Wish / Du'a</label>
           <textarea id="wish-text" placeholder="Share your heartfelt wishes and du'as for the couple..."></textarea>
         </div>
-        <!-- WhatsApp send button -->
         <button class="btn-whatsapp" onclick="submitWishWhatsApp()">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -1184,8 +1149,6 @@
     </div>
   </div>
 
-
-
   <!-- FOOTER -->
   <footer>
     <div class="footer-hearts">
@@ -1212,274 +1175,246 @@
 
 <script>
   /* ============================================================
-     WHATSAPP NUMBER — change only this to update
+     CONFIG — change only this number to update
   ============================================================ */
-  const WA_NUMBER = '918122787840'; // India country code 91 + number
- 
-  /* Helper: open WhatsApp with a pre-filled message */
+  const WA_NUMBER = '918122787840'; // India +91 prefix + number
+
+  /* ============================================================
+     HELPER: open WhatsApp with pre-filled message
+  ============================================================ */
   function openWhatsApp(message) {
-    const encoded = encodeURIComponent(message);
-    const url = `https://wa.me/${WA_NUMBER}?text=${encoded}`;
+    var encoded = encodeURIComponent(message);
+    var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encoded;
     window.open(url, '_blank');
   }
- 
+
   /* ============================================================
-     WISHES — WhatsApp submission
+     FIX 1: defaultWishes — declared BEFORE renderWishes is called
+  ============================================================ */
+  var defaultWishes = [
+    {
+      name: 'Ahmed & Fatima',
+      relation: 'Family',
+      text: 'May Allah bless your union with love, mercy, and endless happiness. Mabrook! 🌸'
+    },
+    {
+      name: 'Ibrahim Uncle',
+      relation: 'Family',
+      text: 'Wishing the new couple a life filled with joy, barakah, and beautiful moments together. Ameen.'
+    },
+    {
+      name: 'Zainab',
+      relation: 'Friend',
+      text: 'So happy for both of you! May your home be filled with laughter, love, and the light of Allah. 💛'
+    }
+  ];
+
+  /* ============================================================
+     WISHES — render wish cards
+  ============================================================ */
+  function renderWishes(wishes) {
+    var list = document.getElementById('wish-list');
+    if (!list) return;
+    list.innerHTML = wishes.map(function(w) {
+      return '<div class="wish-card">' +
+        '<div class="wish-author">💛 ' + w.name + '</div>' +
+        '<div class="wish-relation">' + w.relation + '</div>' +
+        '<p>' + w.text + '</p>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* ============================================================
+     FIX 2: submitWishWhatsApp — sends to WhatsApp AND adds to page
   ============================================================ */
   function submitWishWhatsApp() {
-    const name     = document.getElementById('wish-name').value.trim();
-    const relation = document.getElementById('wish-relation').value;
-    const text     = document.getElementById('wish-text').value.trim();
- 
+    var name     = document.getElementById('wish-name').value.trim();
+    var relation = document.getElementById('wish-relation').value;
+    var text     = document.getElementById('wish-text').value.trim();
+
     if (!name || !text) {
       showToast('Please fill in your name and wish 💛');
       return;
     }
- 
-    const message =
-      `💌 *Wedding Wish — Suhail & Marliya*\n\n` +
-      `👤 *Name:* ${name}\n` +
-      `🤝 *Relation:* ${relation}\n\n` +
-      `🌸 *Wish / Du'a:*\n${text}\n\n` +
-      `— Sent via the Wedding Invitation`;
- 
-    // Also add to on-page list
-    defaultWishes.unshift({ name, relation, text });
+
+    var message =
+      '\uD83D\uDC8C *Wedding Wish \u2014 Suhail & Marliya*\n\n' +
+      '\uD83D\uDC64 *Name:* ' + name + '\n' +
+      '\uD83E\uDD1D *Relation:* ' + relation + '\n\n' +
+      '\uD83C\uDF38 *Wish / Du\'a:*\n' + text + '\n\n' +
+      '\u2014 Sent via the Wedding Invitation';
+
+    // Add to on-page list immediately
+    defaultWishes.unshift({ name: name, relation: relation, text: text });
     renderWishes(defaultWishes);
- 
-    // Clear form
-    document.getElementById('wish-name').value  = '';
-    document.getElementById('wish-text').value  = '';
- 
-    showToast('Opening WhatsApp... JazakAllahu Khairan 🌸');
-    openWhatsApp(message);
+
+    // Clear form fields
+    document.getElementById('wish-name').value = '';
+    document.getElementById('wish-text').value = '';
+
+    showToast('Opening WhatsApp... JazakAllahu Khairan \uD83C\uDF38');
+
+    // Small delay so toast shows before browser navigates
+    setTimeout(function() {
+      openWhatsApp(message);
+    }, 400);
   }
- 
+
   /* ============================================================
-     RSVP — WhatsApp submission
+     LOADING SCREEN
   ============================================================ */
-  function sendRSVP(attending) {
-    const name   = document.getElementById('rsvp-name').value.trim();
-    const guests = document.getElementById('rsvp-guests').value;
- 
-    if (!name) {
-      showToast('Please enter your name 💛');
-      return;
-    }
- 
-    let message;
-    if (attending) {
-      message =
-        `✅ *RSVP — Attending*\n\n` +
-        `💒 *Wedding of Suhail & Marliya*\n` +
-        `📅 Sunday, April 12, 2026 · 10:00 AM\n` +
-        `📍 Vembadi Pallivasal, Tenkasi\n\n` +
-        `👤 *Name:* ${name}\n` +
-        `👥 *Number of Guests:* ${guests}\n\n` +
-        `I will be attending, In Shaa Allah! 🌸`;
- 
-      document.getElementById('rsvp-form').style.display = 'none';
-      document.getElementById('rsvp-success').style.display = 'block';
-      document.getElementById('rsvp-success').innerHTML =
-        `JazakAllahu Khairan, ${name}! 🌸<br>` +
-        `<span style="font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--brown-light);">We can't wait to celebrate with you! Your RSVP has been sent via WhatsApp.</span>`;
- 
-      showToast(`Mabrook! Opening WhatsApp... 🌸`);
-    } else {
-      message =
-        `❌ *RSVP — Unable to Attend*\n\n` +
-        `💒 *Wedding of Suhail & Marliya*\n` +
-        `📅 Sunday, April 12, 2026 · 10:00 AM\n\n` +
-        `👤 *Name:* ${name}\n\n` +
-        `Unfortunately I am unable to attend. My du'as and best wishes are always with the couple. 🤲`;
- 
-      document.getElementById('rsvp-form').style.display = 'none';
-      document.getElementById('rsvp-success').style.display = 'block';
-      document.getElementById('rsvp-success').innerHTML =
-        `JazakAllahu Khairan, ${name}! 🌸<br>` +
-        `<span style="font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--brown-light);">Your prayers and du'as are always welcome even from afar.</span>`;
- 
-      showToast(`Thank you, ${name}. Opening WhatsApp... 💛`);
-    }
- 
-    openWhatsApp(message);
-  }
- 
-  /* ============================================================
-     LOADING
-  ============================================================ */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
+  window.addEventListener('load', function() {
+    setTimeout(function() {
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('page').classList.add('visible');
       initPetals();
+      // Render default wishes once page is visible
+      renderWishes(defaultWishes);
     }, 1800);
   });
- 
-  /* NAV */
-  const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => {
+
+  /* ============================================================
+     NAV — show after scroll
+  ============================================================ */
+  var nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', function() {
     nav.classList.toggle('visible', window.scrollY > 80);
   });
- 
-  /* SCROLL REVEAL */
-  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-  const observer = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+
+  /* ============================================================
+     SCROLL REVEAL
+  ============================================================ */
+  var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  var observer = new IntersectionObserver(
+    function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    },
     { threshold: 0.12 }
   );
-  revealEls.forEach(el => observer.observe(el));
- 
-  /* COUNTDOWN */
-  const weddingDate = new Date('2026-04-12T10:00:00');
+  revealEls.forEach(function(el) { observer.observe(el); });
+
+  /* ============================================================
+     COUNTDOWN
+  ============================================================ */
+  var weddingDate = new Date('2026-04-12T10:00:00');
   function updateCountdown() {
-    const diff = weddingDate - new Date();
+    var diff = weddingDate - new Date();
     if (diff <= 0) {
-      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '00');
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id) {
+        document.getElementById(id).textContent = '00';
+      });
       return;
     }
-    document.getElementById('cd-days').textContent  = String(Math.floor(diff/(1000*60*60*24))).padStart(2,'0');
-    document.getElementById('cd-hours').textContent = String(Math.floor((diff%(1000*60*60*24))/(1000*60*60))).padStart(2,'0');
-    document.getElementById('cd-mins').textContent  = String(Math.floor((diff%(1000*60*60))/(1000*60))).padStart(2,'0');
-    document.getElementById('cd-secs').textContent  = String(Math.floor((diff%(1000*60))/1000)).padStart(2,'0');
+    document.getElementById('cd-days').textContent  = String(Math.floor(diff / (1000*60*60*24))).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(Math.floor((diff % (1000*60*60*24)) / (1000*60*60))).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,'0');
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
- 
-  /* PETALS */
-  const canvas = document.getElementById('petals-canvas');
-  const ctx    = canvas.getContext('2d');
-  let petals   = [];
-  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
- 
-  function createPetal(randomY = false) {
-    const colors = ['rgba(212,160,160,0.55)','rgba(248,192,192,0.45)','rgba(232,213,163,0.4)','rgba(201,168,76,0.3)','rgba(244,192,192,0.5)'];
+
+  /* ============================================================
+     FALLING PETALS CANVAS
+  ============================================================ */
+  var canvas = document.getElementById('petals-canvas');
+  var ctx    = canvas.getContext('2d');
+  var petals = [];
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function createPetal(randomY) {
+    var colors = [
+      'rgba(212,160,160,0.55)',
+      'rgba(248,192,192,0.45)',
+      'rgba(232,213,163,0.4)',
+      'rgba(201,168,76,0.3)',
+      'rgba(244,192,192,0.5)'
+    ];
     return {
-      x: Math.random() * canvas.width,
-      y: randomY ? Math.random() * canvas.height : -20,
-      size: 8 + Math.random() * 14,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      speedY: 0.5 + Math.random() * 1,
-      speedX: (Math.random() - 0.5) * 0.6,
+      x:        Math.random() * canvas.width,
+      y:        randomY ? Math.random() * canvas.height : -20,
+      size:     8 + Math.random() * 14,
+      color:    colors[Math.floor(Math.random() * colors.length)],
+      speedY:   0.5 + Math.random() * 1,
+      speedX:   (Math.random() - 0.5) * 0.6,
       rotation: Math.random() * Math.PI * 2,
       rotSpeed: (Math.random() - 0.5) * 0.04,
-      opacity: 0.4 + Math.random() * 0.5,
+      opacity:  0.4 + Math.random() * 0.5
     };
   }
- 
+
   function initPetals() {
-    petals = Array.from({ length: 28 }, () => createPetal(true));
+    petals = [];
+    for (var i = 0; i < 28; i++) {
+      petals.push(createPetal(true));
+    }
     animatePetals();
   }
- 
+
   function drawPetal(p) {
     ctx.save();
     ctx.translate(p.x, p.y);
     ctx.rotate(p.rotation);
     ctx.globalAlpha = p.opacity;
-    ctx.fillStyle = p.color;
+    ctx.fillStyle   = p.color;
     ctx.beginPath();
     ctx.ellipse(0, 0, p.size * 0.5, p.size, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }
- 
+
   function animatePetals() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    petals.forEach((p, i) => {
+    for (var i = 0; i < petals.length; i++) {
+      var p = petals[i];
       drawPetal(p);
-      p.y += p.speedY;
-      p.x += p.speedX + Math.sin(p.y * 0.01) * 0.3;
+      p.y        += p.speedY;
+      p.x        += p.speedX + Math.sin(p.y * 0.01) * 0.3;
       p.rotation += p.rotSpeed;
-      if (p.y > canvas.height + 30) petals[i] = createPetal(false);
-    });
+      if (p.y > canvas.height + 30) {
+        petals[i] = createPetal(false);
+      }
+    }
     requestAnimationFrame(animatePetals);
   }
- 
-  /* MUSIC */
-  let musicPlaying = false;
-  let audioCtx, oscillator1, oscillator2, gainNode;
- 
-  function toggleMusic() {
-    const btn = document.getElementById('music-btn');
-    if (!musicPlaying) {
-      try {
-        audioCtx    = new (window.AudioContext || window.webkitAudioContext)();
-        gainNode    = audioCtx.createGain();
-        gainNode.gain.value = 0.08;
-        gainNode.connect(audioCtx.destination);
-        oscillator1 = audioCtx.createOscillator();
-        oscillator1.type = 'sine';
-        oscillator1.frequency.value = 261.63;
-        oscillator1.connect(gainNode);
-        oscillator1.start();
-        oscillator2 = audioCtx.createOscillator();
-        oscillator2.type = 'sine';
-        oscillator2.frequency.value = 329.63;
-        oscillator2.connect(gainNode);
-        oscillator2.start();
-        musicPlaying = true;
-        btn.textContent = '🔊';
-        btn.classList.add('playing');
-        showToast('🎵 Ambient music playing...');
-      } catch(e) {
-        showToast('Music not supported in this browser');
-      }
-    } else {
-      oscillator1.stop(); oscillator2.stop();
-      musicPlaying = false;
-      btn.textContent = '🎵';
-      btn.classList.remove('playing');
-      showToast('Music paused');
-    }
-  }
- 
-  /* TOAST */
+
+  /* ============================================================
+     TOAST NOTIFICATION
+  ============================================================ */
   function showToast(msg) {
-    const t = document.getElementById('toast');
+    var t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
+    setTimeout(function() { t.classList.remove('show'); }, 3000);
   }
- 
-  /* WISHES LIST */
-  const defaultWishes = [
-    { name: 'Fatimah',     relation: 'Family',    text: 'May Allah bless your union with love, mercy and understanding. Wishing you a lifetime of happiness together! Ameen 🌸' },
-    { name: 'Ibrahim',     relation: 'Friend',    text: 'Mabrook to my dear friend! May your home be filled with joy and your hearts with gratitude. JazakAllahu Khairan.' },
-    { name: 'Ayesha Banu', relation: 'Neighbour', text: 'A beautiful couple, a blessed beginning! May Allah grant you both Jannah together. Ameen ❤️' },
+
+  /* ============================================================
+     LIGHTBOX
+  ============================================================ */
+  var galleryData = [
+    { emoji: '\uD83D\uDC92', title: 'The Venue',       desc: 'Vembadi Pallivasal, Tenkasi — a beautiful setting for a beautiful union.' },
+    { emoji: '\uD83D\uDC8D', title: 'The Rings',        desc: 'Two rings, one promise — a lifetime of love and loyalty.' },
+    { emoji: '\uD83C\uDF38', title: 'The Flowers',      desc: 'Roses in bloom for a day that blooms with love.' },
+    { emoji: '\uD83E\uDD32', title: 'Family Blessings', desc: "Surrounded by family, wrapped in du'as and love." },
+    { emoji: '\uD83C\uFF4E', title: 'The Lanterns',     desc: 'Golden lanterns lighting the way to a blessed new chapter.' },
+    { emoji: '\uD83C\uDF82', title: 'Sweet Beginnings', desc: 'A sweet start to a beautiful journey together.' }
   ];
- 
-  function renderWishes(wishes) {
-    document.getElementById('wish-list').innerHTML = wishes.map(w => `
-      <div class="wish-card">
-        <div class="wish-author">💛 ${w.name}</div>
-        <div class="wish-relation">${w.relation}</div>
-        <p>${w.text}</p>
-      </div>
-    `).join('');
-  }
-  renderWishes(defaultWishes);
- 
-  /* LIGHTBOX */
-  const galleryData = [
-    { emoji: '💒', title: 'The Venue',        desc: 'Vembadi Pallivasal, Tenkasi — a beautiful setting for a beautiful union.' },
-    { emoji: '💍', title: 'The Rings',         desc: 'Two rings, one promise — a lifetime of love and loyalty.' },
-    { emoji: '🌸', title: 'The Flowers',       desc: 'Roses in bloom for a day that blooms with love.' },
-    { emoji: '🤲', title: 'Family Blessings',  desc: "Surrounded by family, wrapped in du'as and love." },
-    { emoji: '🏮', title: 'The Lanterns',      desc: 'Golden lanterns lighting the way to a blessed new chapter.' },
-    { emoji: '🎂', title: 'Sweet Beginnings',  desc: 'A sweet start to a beautiful journey together.' },
-  ];
- 
+
   function openLightbox(title, desc) {
-    const data = galleryData.find(g => g.title === title) || { emoji: '💒', title, desc };
-    document.getElementById('lb-emoji').textContent  = data.emoji;
-    document.getElementById('lb-title').textContent  = data.title;
-    document.getElementById('lb-desc').textContent   = data.desc;
+    var data = galleryData.find(function(g) { return g.title === title; }) || { emoji: '\uD83D\uDC92', title: title, desc: desc };
+    document.getElementById('lb-emoji').textContent = data.emoji;
+    document.getElementById('lb-title').textContent = data.title;
+    document.getElementById('lb-desc').textContent  = data.desc;
     document.getElementById('lightbox').classList.add('open');
   }
- 
+
   function closeLightbox(e) {
     if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
       document.getElementById('lightbox').classList.remove('open');
