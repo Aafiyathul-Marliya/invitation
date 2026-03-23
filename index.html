@@ -928,7 +928,7 @@
   }
   .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-
+ 
 
   /* ===== TOAST ===== */
   .toast {
@@ -1013,7 +1013,7 @@
 </style>
 </head>
 <body>
-  
+    <audio id="bg-music" src="music/nikah_song.mp3.mpeg" loop></audio>
 
 <!-- Loading -->
 <div id="loading">
@@ -1456,7 +1456,8 @@
           </div>
         </div>
         <div style="padding:0 2rem 2rem; text-align:center;">
-          <a class="btn-directions" href="https://maps.app.goo.gl/dttHnyoTEjYSFeo16?g_st=aw" target="_blank">
+          <a class="btn-directions" href="[5:06 pm, 16/3/2026] M.Aafiyathul Marliya: Open pani check pani paruga
+[5:12 pm, 16/3/2026] روح حياتي 🤍: https://maps.app.goo.gl/dttHnyoTEjYSFeo16?g_st=aw" target="_blank">
             🗺️ Get Directions
           </a>
         </div>
@@ -1522,6 +1523,7 @@
   </footer>
 
 </div><!-- end #page -->
+
 
 
 <!-- Toast -->
@@ -1647,7 +1649,6 @@ function animatePetals() {
 }
 
 
-
 /* ===== TOAST ===== */
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1709,7 +1710,8 @@ renderWishes(defaultWishes);
     console.error(err);
     showToast('Error saving wish 😢');
   });
-}      
+}
+
 /* ===== RSVP ===== */
 function sendRSVP(attending) {
   const name = document.getElementById('rsvp-name').value.trim();
@@ -1729,6 +1731,7 @@ function sendRSVP(attending) {
     `;
   }
 }
+
 /* ===== LIGHTBOX ===== */
 const galleryData = [
   { emoji: '💒', title: 'The Venue', desc: 'Vembadi Pallivasal, Tenkasi — a beautiful setting for a beautiful union.' },
@@ -1738,6 +1741,7 @@ const galleryData = [
   { emoji: '🏮', title: 'The Lanterns', desc: 'Golden lanterns lighting the way to a blessed new chapter.' },
   { emoji: '🎂', title: 'Sweet Beginnings', desc: 'A sweet start to a beautiful journey together.' },
 ];
+
 function openLightbox(title, desc) {
   const data = galleryData.find(g => g.title === title) || { emoji: '💒', title, desc };
   document.getElementById('lb-emoji').textContent = data.emoji;
@@ -1745,11 +1749,12 @@ function openLightbox(title, desc) {
   document.getElementById('lb-desc').textContent = data.desc;
   document.getElementById('lightbox').classList.add('open');
 }
+
 function closeLightbox(e) {
   if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
-
+</script>
 </body>
 </html>
