@@ -928,28 +928,7 @@
   }
   .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-  /* ===== MUSIC TOGGLE ===== */
-  #music-btn {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 400;
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    box-shadow: 0 4px 18px rgba(139,105,20,0.4);
-    transition: transform 0.2s;
-    color: white;
-  }
-  #music-btn:hover { transform: scale(1.1); }
-  #music-btn.playing { animation: glow 2s ease infinite; }
-  @keyframes glow { 0%,100%{ box-shadow: 0 4px 18px rgba(139,105,20,0.4); } 50%{ box-shadow: 0 4px 32px rgba(201,168,76,0.7); } }
+
 
   /* ===== TOAST ===== */
   .toast {
@@ -1477,7 +1456,7 @@
           </div>
         </div>
         <div style="padding:0 2rem 2rem; text-align:center;">
-          <a class="btn-directions" href="https://maps.google.com/?q=Tenkasi,Tamil+Nadu,India" target="_blank">
+          <a class="btn-directions" href="https://maps.app.goo.gl/dttHnyoTEjYSFeo16?g_st=aw" target="_blank">
             🗺️ Get Directions
           </a>
         </div>
@@ -1544,8 +1523,6 @@
 
 </div><!-- end #page -->
 
-<!-- Music Button -->
-<button id="music-btn" title="Toggle music" onclick="toggleMusic()">🎵</button>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
@@ -1668,24 +1645,7 @@ function animatePetals() {
   });
   requestAnimationFrame(animatePetals);
 }
-/*=====music=====*/
 
-const music = document.getElementById("bg-music");
-const btn = document.getElementById("music-btn");
-
-function toggleMusic() {
-  if (music.paused) {
-    music.play();
-    btn.textContent = '🔊';
-    btn.classList.add('playing');
-    showToast('🎵 Music playing...');
-  } else {
-    music.pause();
-    btn.textContent = '🎵';
-    btn.classList.remove('playing');
-    showToast('Music paused');
-  }
-}
 
 
 /* ===== TOAST ===== */
@@ -1790,49 +1750,6 @@ function closeLightbox(e) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
-<audio id="bgMusic" preload="auto" muted>
-  <source src="https://res.cloudinary.com/dyvt3ovtl/video/upload/v1774297951/nikah_song.mp3_z99yw4.mp3" type="audio/mpeg">
-</audio>
 
-<button id="musicBtn" style="
-position: fixed;
-bottom: 20px;
-right: 20px;
-background: gold;
-border: none;
-padding: 14px;
-border-radius: 50%;
-font-size: 18px;
-z-index: 999;
-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-">
-🔊
-</button>
-
-<script>
-const audio = document.getElementById("bgMusic");
-const btn = document.getElementById("musicBtn");
-
-// 🔥 preload trick (silent play)
-document.addEventListener("DOMContentLoaded", () => {
-  audio.play().then(() => {
-    audio.pause();
-    audio.currentTime = 0;
-  }).catch(() => {});
-});
-
-// 🎯 button click
-btn.addEventListener("click", () => {
-  audio.muted = false;
-  audio.play();
-  btn.innerText = "⏸️";
-});
-
-// 🔁 optional toggle
-btn.addEventListener("dblclick", () => {
-  audio.pause();
-  btn.innerText = "🔊";
-});
-</script>
 </body>
 </html>
