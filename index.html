@@ -1782,7 +1782,7 @@ function closeLightbox(e) {
   }
 }
 </script>
-<script>
+  <script>
 const music = document.getElementById("bg-music");
 const btn = document.getElementById("music-btn");
 
@@ -1791,18 +1791,22 @@ function toggleMusic() {
   music.volume = 1.0;
 
   if (music.paused) {
-    music.play();
-    btn.innerText = "🔊";
-    btn.classList.add("playing");
+    music.play().then(() => {
+      btn.innerText = "🔊";
+      btn.classList.add("playing");
+    }).catch(err => {
+      console.log("Play error:", err);
+    });
   } else {
     music.pause();
     btn.innerText = "🎵";
     btn.classList.remove("playing");
   }
 }
-  document.body.addEventListener("click", () => {
+    document.body.addEventListener("click", function () {
+  music.muted = false;
   music.play();
 }, { once: true });
-</script>
+  </script>
 </body>
 </html>
