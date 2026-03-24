@@ -32,6 +32,25 @@
     overflow-x: hidden;
     cursor: default;
   }
+/*=====music====*/
+#music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: gold;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#music-btn.playing {
+  background: orange;
+}
+
 
   /* ===== PARTICLES / PETAL CANVAS ===== */
   #petals-canvas {
@@ -1013,7 +1032,14 @@
 </style>
 </head>
 <body>
-    <audio id="bg-music" src="music/nikah_song.mp3.mpeg" loop></audio>
+  
+    <!-- 🎵 AUDIO -->
+<audio id="bg-music" loop>
+  <source src="https://res.cloudinary.com/dyvt3ovtl/video/upload/v1774297951/nikah_song.mp3_z99yw4.mp" type="audio/mpeg">
+</audio>
+
+<!-- 🎵 MUSIC BUTTON -->
+<button id="music-btn" onclick="toggleMusic()">🎵</button>
 
 <!-- Loading -->
 <div id="loading">
@@ -1755,6 +1781,28 @@ function closeLightbox(e) {
     document.getElementById('lightbox').classList.remove('open');
   }
 }
+</script>
+<script>
+const music = document.getElementById("bg-music");
+const btn = document.getElementById("music-btn");
+
+function toggleMusic() {
+  music.muted = false;
+  music.volume = 1.0;
+
+  if (music.paused) {
+    music.play();
+    btn.innerText = "🔊";
+    btn.classList.add("playing");
+  } else {
+    music.pause();
+    btn.innerText = "🎵";
+    btn.classList.remove("playing");
+  }
+}
+  document.body.addEventListener("click", () => {
+  music.play();
+}, { once: true });
 </script>
 </body>
 </html>
